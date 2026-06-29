@@ -87,8 +87,16 @@ def create_app() -> Flask:
     return app
 
 
+# PaaS 平台（Zeabur/Render/Vercel/Heroku 等）常自动用 `gunicorn app:app` 启动
+# （而不是 Procfile 的 `wsgi:app`），必须在本模块顶层暴露一个可调用的 app
+# 否则会抛：AttributeError: Failed to find attribute 'app' in 'app'.
+# 这行必须放在「if __name__ == '__main__'」之前，保证 import app 时就能拿到。
+# 注：该变量由工厂函数构造，不会触发开发服务器 run()；不会影响本地 `python app.py`。
+app = create_app()
+
+
 if __name__ == "__main__":
-    flask_app = create_app()
+    flask_app = app
     # 说明：
     # 1) use_reloader=False：关闭 Werkzeug 双进程重载，避免导航期间连接被中断
     #    导致浏览器出现 net::ERR_ABORTED（编辑保存自动重载仅在开发者手动调试时需要）；
