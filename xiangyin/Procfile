@@ -1,0 +1,1 @@
+web: gunicorn -k gevent --workers 1 --threads 128 --timeout 180 --keep-alive 10 --bind 0.0.0.0:$PORT wsgi:app

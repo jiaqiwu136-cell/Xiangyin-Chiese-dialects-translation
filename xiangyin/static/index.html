@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>乡音 · 方言 ↔ 英语 翻译平台</title>
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<div class="page">
+
+  <!-- ============================================================
+       顶部 Header
+       ============================================================ -->
+  <header class="site-header">
+    <div class="brand">
+      <span class="brand-seal">乡</span>
+      <div class="brand-text">
+        <h1>乡&nbsp;音</h1>
+        <p class="brand-sub">XIANG·YIN &nbsp;·&nbsp; 方 言 ↔ 英 语 翻 译 与 文 化 科 普 平 台</p>
+      </div>
+    </div>
+
+    <div class="settings">
+      <label class="model-label">
+        <span>选择模型</span>
+        <select id="modelSelect" title="从开发者预置的模型池中选择">
+          <option value="">加载模型池…</option>
+        </select>
+      </label>
+      <div class="dir-switch" role="tablist" aria-label="翻译方向">
+        <button type="button" class="dir-btn active" data-dir="d2e" role="tab" aria-selected="true">
+          方言 → 英语
+        </button>
+        <button type="button" class="dir-btn" data-dir="e2d" role="tab" aria-selected="false">
+          英语 → 方言
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- ============================================================
+         翻译区（左右两栏：输入｜输出）
+         ============================================================ -->
+    <section class="translate-section">
+
+      <!-- 左：输入 -->
+      <div class="input-col panel">
+        <!-- 方言→英语 输入 -->
+        <div class="dir-panel" data-dir-panel="d2e">
+          <label class="panel-title" for="srcInputD2E">
+            <span class="tag-dot"></span> 输入方言文本
+          </label>
+          <textarea id="srcInputD2E" rows="7" placeholder="例：今天吃啥子嘛？莫得事，摆一哈哈儿龙门阵"></textarea>
+
+          <div class="origin-row" id="originRow" hidden>
+            <label class="panel-title">
+              <span class="tag-dot origin"></span> 归属地推理
+              <span class="origin-hint">（请核对后点击确认，可直接修改）</span>
+            </label>
+            <div class="origin-box">
+              <input id="originInput" type="text" placeholder="等待推理归属地…" />
+              <div class="origin-meta" id="originMeta"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 英语→方言 输入 -->
+        <div class="dir-panel" data-dir-panel="e2d" hidden>
+          <label class="panel-title" for="srcInputE2D">
+            <span class="tag-dot"></span> 输入英语文本
+          </label>
+          <textarea id="srcInputE2D" rows="5" placeholder="例：What shall we eat for lunch today?"></textarea>
+
+          <label class="panel-title" for="targetDialect">
+            <span class="tag-dot origin"></span> 目标方言名称
+          </label>
+          <input id="targetDialect" type="text" placeholder="例：四川话 / 粤语广州话 / 闽南语泉州腔 / 东北话" />
+          <p class="muted-tip">请手动输入目标方言名（建议尽量精确到片区）。</p>
+        </div>
+
+        <div class="action-row">
+          <button type="button" class="btn-primary" id="translateBtn">开 始 翻 译</button>
+          <button type="button" class="btn-ghost" id="cancelBtn" hidden>停 止</button>
+          <div class="status-text" id="statusText"></div>
+        </div>
+      </div>
+
+      <!-- 右：输出 -->
+      <div class="output-col panel">
+        <label class="panel-title">
+          <span class="tag-dot out"></span> 翻译结果
+          <span class="out-meta" id="outMeta"></span>
+        </label>
+
+        <div id="outputArea" class="output-area">
+          <div class="empty-out" id="emptyOut">
+            <div class="empty-icon">𰨷</div>
+            <p class="empty-text">在左侧输入后点「开始翻译」</p>
+            <p class="empty-sub">方言→英语：先推理归属地，再生成三版本译文供挑选；英语→方言：生成方言原文 + 注音读法</p>
+          </div>
+
+          <!-- 方言→英语 三版本容器 -->
+          <div id="d2eResults" class="version-grid" hidden></div>
+
+          <!-- 英语→方言 结果容器 -->
+          <div id="e2dResult" class="e2d-wrap" hidden>
+            <div id="e2dTranslation" class="e2d-translation"></div>
+            <div class="e2d-notes" id="e2dNotes"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         科普卡片
+         ============================================================ -->
+    <section class="culture-section" id="cultureSection" hidden>
+      <div class="section-head">
+        <h2><span class="sec-mark">❧</span> 风土科普</h2>
+        <span class="cache-tag" id="cultureTag"></span>
+      </div>
+      <div id="cultureCard" class="culture-card">
+        <div class="culture-loading">等待翻译完成…</div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         反馈留言板
+         ============================================================ -->
+    <section class="board-section">
+      <div class="section-head">
+        <h2><span class="sec-mark">✦</span> 社区反馈留言板</h2>
+        <span class="board-hint">所有反馈即时公开 · 共建语料生态</span>
+      </div>
+      <div id="boardList" class="board-list">
+        <div class="culture-loading">加载反馈留言…</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       反馈弹窗
+       ============================================================ -->
+  <div class="modal-mask" id="feedbackModal" hidden>
+    <div class="modal">
+      <div class="modal-head">
+        <h3>反馈 / 提交您的修正版本</h3>
+        <button class="modal-close" id="fbCloseBtn" type="button">×</button>
+      </div>
+      <form id="feedbackForm" class="modal-body">
+        <label>原文
+          <input type="text" id="fbSource" readonly />
+        </label>
+        <label>系统译文（参考）
+          <input type="text" id="fbTarget" readonly />
+        </label>
+        <label>归属地 / 目标方言
+          <input type="text" id="fbOrigin" readonly />
+        </label>
+        <label>您认为正确的版本 <span class="req">*</span>
+          <textarea id="fbSuggested" rows="3" required placeholder="请填入您认为更准确的翻译/地道说法"></textarea>
+        </label>
+        <input type="hidden" id="fbDirection" />
+        <input type="hidden" id="fbModel" />
+        <input type="hidden" id="fbTemp" />
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" id="fbCancelBtn">取消</button>
+          <button type="submit" class="btn-primary">提交反馈</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       Footer · 免责声明
+       ============================================================ -->
+  <footer class="site-footer">
+    <details>
+      <summary>免责声明 · 点击展开</summary>
+      <div id="disclaimerBox" class="disclaimer">
+        加载中…
+      </div>
+    </details>
+    <div class="copyright">© 乡音 Xiangyin · 基于大语言模型的方言 ↔ 英语 翻译与文化科普平台</div>
+  </footer>
+
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

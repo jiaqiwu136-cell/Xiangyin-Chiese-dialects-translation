@@ -1,0 +1,9 @@
+Flask>=3.0.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+# ===== PaaS 生产部署所需 =====
+# Render / Zeabur / Railway 会通过 Procfile 使用 gunicorn 启动
+gunicorn>=21.2.0
+# SSE 流式推荐 gevent worker（比 sync worker 更稳定支持长连接）
+gevent>=24.2.1
+greenlet>=3.0.1

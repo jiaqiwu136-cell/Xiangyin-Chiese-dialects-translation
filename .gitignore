@@ -1,0 +1,60 @@
+# ====== 根目录 .gitignore（仓库根：d:\迅雷云盘）======
+# 乡音 XIANG·YIN · 方言 ↔ 英语 翻译平台 — 部署到 GitHub/Zeabur/Render/Vercel 用
+
+# --- 旧根目录静态页/临时页面（本地临时预览产物，不需同步）---
+/term.html
+/terms.js
+/translate.html
+
+# --- 迅雷/网盘同步缓存目录（可能很大）---
+/云盘缓存
+/cloud-cache
+/.迅雷云盘缓存
+
+# ====== Python ======
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ====== 虚拟环境 ======
+.venv/
+venv/
+env/
+ENV/
+
+# ====== IDE / Editor ======
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ====== 应用敏感数据 / 本地开发（绝对禁止上传）======
+.env
+.env.local
+.env.*.local
+
+# ====== SQLite / 数据库 ======
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# ====== 日志 ======
+*.log
+logs/
+
+# ====== Node 临时（如果哪天装了 npm 工具）======
+node_modules/

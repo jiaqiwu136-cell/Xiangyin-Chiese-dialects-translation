@@ -1,0 +1,41 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+pip-wheel-metadata/
+
+# ===== Virtual Env =====
+.venv/
+venv/
+env/
+ENV/
+
+# ===== IDE / Editor =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ===== App secrets & local data =====
+.env
+.env.local
+.env.*.local
+*.log
+
+# ===== SQLite (local/dev copies; 部署时平台会自动重建空库) =====
+xiangyin.db
+xiangyin.db-wal
+xiangyin.db-shm
+
+# ===== Test artifacts =====
+.pytest_cache/
+.coverage
+htmlcov/

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "pip install --target .vercel/python -r requirements.txt || true",
+  "installCommand": "pip install -r requirements.txt",
+  "framework": null,
+  "outputDirectory": "static",
+  "functions": {
+    "api/index.py": {
+      "includeFiles": "static/**,config.py,db.py,routes.py,llm_service.py,ip_utils.py,constants.py,app.py,wsgi.py"
+    }
+  },
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api/index" }
+  ]
+}
